@@ -9,14 +9,14 @@ public class Main {
     String user = "postgres";
     String password = "ntsoa";
 
-    String query = "SELECT * FROM users WHERE name ILIKE ? LIMIT ? ";
+    String query = "SELECT * FROM users WHERE name ILIKE ? LIMIT ? OFFSET ?";
 
     public void getUserByPagination(String word, Integer limit, Integer offset){
         try(Connection conn = DriverManager.getConnection(url, user, password);
         PreparedStatement pst = conn.prepareStatement(query)){
             pst.setString(1,"%" + word +"%" );
             pst.setInt(2,limit);
-
+            pst.setInt(3,offset);
 
             ResultSet rs = pst.executeQuery();
 
@@ -36,6 +36,6 @@ public class Main {
     }
     public static void main(String[] args) {
         Main test = new Main();
-        test.getUserByPagination("al",2,2);
+        test.getUserByPagination("a",2,3);
     }
 }
